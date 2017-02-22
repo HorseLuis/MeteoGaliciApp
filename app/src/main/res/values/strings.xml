@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MeteoGaliciApp</string>
+    <string name="ciudad">Ourense</string>
+    <string name="temperatura">0</string>
+</resources>
