@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 temperatura = temp;
 
                 TextView view_temp = (TextView) findViewById(R.id.text_temperatura);
-                view_temp.setText(temperatura);
+                view_temp.setText(temperatura+"º C");
 
                 ImageView view_estado = (ImageView) findViewById(R.id.estado_cielo);
                 int imgres = 0;

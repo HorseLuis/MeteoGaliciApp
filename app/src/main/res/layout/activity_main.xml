@@ -13,13 +13,35 @@
     tools:context="com.eric.app.meteogaliciapp.MainActivity"
     android:gravity="center_horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/ciudad_texto"
-        android:text="Ourense"
-        android:id="@+id/text_ciudad"
-        android:layout_marginBottom="24dp"/>
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:layout_marginRight="20dp"
+            android:id="@+id/estado_cielo" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ciudad_texto"
+            android:text="Ourense"
+            android:id="@+id/text_ciudad"
+            android:layout_marginBottom="24dp"/>
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:textSize="@dimen/temperatura_texto"
+            android:text="@string/temperatura"
+            android:id="@+id/text_temperatura"
+            android:gravity="center_horizontal" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,27 +49,34 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:srcCompat="@mipmap/ic_launcher"
-            android:id="@+id/estado_cielo" />
+            android:id="@+id/tendencia_temperatura"
+            android:layout_marginRight="20dp"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="@dimen/temperatura_texto"
-            android:text="@string/temperatura"
-            android:id="@+id/text_temperatura"
-            android:gravity="center"/>
+            android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            app:srcCompat="@mipmap/ic_launcher"
-            android:id="@+id/tendencia_temperatura" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dato_cielo" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dato_temp" />
+        </LinearLayout>
+
+
+
+
     </LinearLayout>
 
 
