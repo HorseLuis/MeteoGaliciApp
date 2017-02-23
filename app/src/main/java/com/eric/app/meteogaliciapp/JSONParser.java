@@ -26,7 +26,7 @@ public class JSONParser {
 
     }
 
-    public JSONObject getJSONFromUrl(String url, List params) {
+    public JSONObject getJSONFromUrl(String url) {
         URL _url;
         HttpURLConnection urlConnection;
 

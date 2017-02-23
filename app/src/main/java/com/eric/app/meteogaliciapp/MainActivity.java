@@ -23,18 +23,13 @@ import android.view.View;
 import android.webkit.HttpAuthHandler;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,25 +66,125 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
 
 import static android.R.attr.category;
 
 public class MainActivity extends AppCompatActivity {
-    String pag = "http://servizos.meteogalicia.gal/rss/observacion/rssEstacionsEstActual.action?request_locale=gl&idEst=10155";
+    String pag = "http://servizos.meteogalicia.gal/rss/observacion/estadoEstacionsMeteo.action?idEst=10148";
     String estadoCielo;
     String varTemperatura;
     String temperatura = "NOFUNCA";
 
+    private static final String TAG_CIELO = "lnIconoCeo";
+    private static final String TAG_VAR = "lnIconoTemperatura";
+    private static final String TAG_TEMP = "valorTemperatura";
+
+    JSONArray datos = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        new JSONParse().execute();
 
     }
 
-    public class JSON extends AsyncTask<String, Void, Estado>{
-        protected Result doInBackground(Params... p) {
+    private class JSONParse extends AsyncTask<String, String, JSONObject> {
+        private ProgressDialog pDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Getting Data ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            // Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl(pag);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            pDialog.dismiss();
+            try {
+                // Getting JSON Array
+                datos = json.getJSONArray("listEstadoActual");
+                JSONObject c = datos.getJSONObject(0);
+
+                // Storing  JSON item in a Variable
+                String cielo = c.getString(TAG_CIELO);
+                String var = c.getString(TAG_VAR);
+                String temp = c.getString(TAG_TEMP);
+
+                //Set JSON Data in TextView
+                estadoCielo = cielo;
+                varTemperatura = var;
+                temperatura = temp;
+
+                TextView view_temp = (TextView) findViewById(R.id.text_temperatura);
+                view_temp.setText(temperatura);
+
+                ImageView view_estado = (ImageView) findViewById(R.id.estado_cielo);
+                int imgres = 0;
+                switch (estadoCielo){
+                    case "101":
+                        imgres = R.drawable.icono_despejado;
+                        break;
+                    case "103":
+                        imgres = R.drawable.icono_nubes_claros;
+                        break;
+                    case "105":
+                        imgres = R.drawable.icono_nublado;
+                        break;
+                    case "107":
+                        imgres = R.drawable.icono_chubascos;
+                        break;
+                    case "111":
+                        imgres = R.drawable.icono_lluvia;
+                        break;
+                    case "201":
+                        imgres = R.drawable.icono_noche_despejada;
+                        break;
+                    case "211":
+                        imgres = R.drawable.icono_noche_luvia;
+                        break;
+                    case "-9999":
+                        imgres = R.drawable.icono_void;
+                        break;
+                }
+                view_estado.setImageResource(imgres);
+
+                ImageView view_var = (ImageView) findViewById(R.id.tendencia_temperatura);
+                int imgres1 = 0;
+                switch (varTemperatura){
+                    case "400":
+                        imgres1 = R.drawable.icono_temp_baja;
+                        break;
+                    case "401":
+                        imgres1 = R.drawable.icono_temp_estable;
+                        break;
+                    case "402":
+                        imgres1 = R.drawable.icono_temp_sube;
+                        break;
+                    case "-9999":
+                        imgres1 = R.drawable.icono_void;
+                        break;
+                }
+                view_var.setImageResource(imgres1);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
+
 }
