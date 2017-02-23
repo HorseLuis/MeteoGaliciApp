@@ -133,52 +133,70 @@ public class MainActivity extends AppCompatActivity {
                 view_temp.setText(temperatura+"º C");
 
                 ImageView view_estado = (ImageView) findViewById(R.id.estado_cielo);
+                TextView dato_cielo = (TextView) findViewById(R.id.dato_cielo);
                 int imgres = 0;
+                String datasky = "";
                 switch (estadoCielo){
                     case "101":
                         imgres = R.drawable.icono_despejado;
+                        datasky = "Cielo despejado";
                         break;
                     case "103":
                         imgres = R.drawable.icono_nubes_claros;
+                        datasky = "Nubes y claros";
                         break;
                     case "105":
                         imgres = R.drawable.icono_nublado;
+                        datasky = "Cielo nublado";
                         break;
                     case "107":
                         imgres = R.drawable.icono_chubascos;
+                        datasky = "Chubascos";
                         break;
                     case "111":
                         imgres = R.drawable.icono_lluvia;
+                        datasky = "Lluvia";
                         break;
                     case "201":
                         imgres = R.drawable.icono_noche_despejada;
+                        datasky = "Noche despejada";
                         break;
                     case "211":
                         imgres = R.drawable.icono_noche_luvia;
+                        datasky = "Noche lluviosa";
                         break;
                     case "-9999":
                         imgres = R.drawable.icono_void;
+                        datasky = "Estado del cielo no disponible. Por favor, mire por la ventana.";
                         break;
                 }
                 view_estado.setImageResource(imgres);
+                dato_cielo.setText(datasky);
 
                 ImageView view_var = (ImageView) findViewById(R.id.tendencia_temperatura);
+                TextView dato_temp = (TextView) findViewById(R.id.dato_temp);
                 int imgres1 = 0;
+                String datatemp = "";
                 switch (varTemperatura){
                     case "400":
                         imgres1 = R.drawable.icono_temp_baja;
+                        datatemp = "Temperaturas en descenso";
                         break;
                     case "401":
                         imgres1 = R.drawable.icono_temp_estable;
+                        datatemp = "Temperaturas estables";
                         break;
                     case "402":
                         imgres1 = R.drawable.icono_temp_sube;
+                        datatemp = "Temperaturas en aumento";
                         break;
                     case "-9999":
                         imgres1 = R.drawable.icono_void;
+                        datatemp = "Variación de temperatura no disponible";
                         break;
                 }
                 view_var.setImageResource(imgres1);
+                dato_temp.setText(datatemp);
 
             } catch (JSONException e) {
                 e.printStackTrace();
