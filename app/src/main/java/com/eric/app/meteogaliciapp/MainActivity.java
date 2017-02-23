@@ -15,6 +15,7 @@ import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.ContactsContract.CommonDataKinds.Note;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.JsonReader;
 import android.util.Log;
 import android.util.Xml;
@@ -74,11 +75,13 @@ public class MainActivity extends AppCompatActivity {
     String pag = "http://servizos.meteogalicia.gal/rss/observacion/estadoEstacionsMeteo.action?idEst=10148";
     String estadoCielo;
     String varTemperatura;
-    String temperatura = "NOFUNCA";
+    String temperatura;
+    String concello;
 
     private static final String TAG_CIELO = "lnIconoCeo";
     private static final String TAG_VAR = "lnIconoTemperatura";
     private static final String TAG_TEMP = "valorTemperatura";
+    private static final String TAG_CITY = "concello";
 
     JSONArray datos = null;
 
@@ -86,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
         new JSONParse().execute();
 
     }
@@ -123,14 +130,18 @@ public class MainActivity extends AppCompatActivity {
                 String cielo = c.getString(TAG_CIELO);
                 String var = c.getString(TAG_VAR);
                 String temp = c.getString(TAG_TEMP);
+                String city = c.getString(TAG_CITY);
 
                 //Set JSON Data in TextView
                 estadoCielo = cielo;
                 varTemperatura = var;
                 temperatura = temp;
+                concello = city;
 
                 TextView view_temp = (TextView) findViewById(R.id.text_temperatura);
-                view_temp.setText(temperatura+"º C");
+                view_temp.setText(temperatura+"º");
+                TextView view_city = (TextView) findViewById(R.id.text_ciudad);
+                view_city.setText(concello);
 
                 ImageView view_estado = (ImageView) findViewById(R.id.estado_cielo);
                 TextView dato_cielo = (TextView) findViewById(R.id.dato_cielo);
@@ -139,35 +150,35 @@ public class MainActivity extends AppCompatActivity {
                 switch (estadoCielo){
                     case "101":
                         imgres = R.drawable.icono_despejado;
-                        datasky = "Cielo despejado";
+                        datasky = "DESPEJADO";
                         break;
                     case "103":
                         imgres = R.drawable.icono_nubes_claros;
-                        datasky = "Nubes y claros";
+                        datasky = "NUBES Y CLAROS";
                         break;
                     case "105":
                         imgres = R.drawable.icono_nublado;
-                        datasky = "Cielo nublado";
+                        datasky = "NUBLADO";
                         break;
                     case "107":
                         imgres = R.drawable.icono_chubascos;
-                        datasky = "Chubascos";
+                        datasky = "CHUBASCOS";
                         break;
                     case "111":
                         imgres = R.drawable.icono_lluvia;
-                        datasky = "Lluvia";
+                        datasky = "LLUVIA";
                         break;
                     case "201":
                         imgres = R.drawable.icono_noche_despejada;
-                        datasky = "Noche despejada";
+                        datasky = "DESPEJADO";
                         break;
                     case "211":
                         imgres = R.drawable.icono_noche_luvia;
-                        datasky = "Noche lluviosa";
+                        datasky = "LLUVIA";
                         break;
                     case "-9999":
                         imgres = R.drawable.icono_void;
-                        datasky = "Estado del cielo no disponible. Por favor, mire por la ventana.";
+                        datasky = "SIN DATOS";
                         break;
                 }
                 view_estado.setImageResource(imgres);
