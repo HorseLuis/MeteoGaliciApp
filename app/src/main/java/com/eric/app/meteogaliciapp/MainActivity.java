@@ -27,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.HttpAuthHandler;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     double temperatura;
     String concello;
     public String concelloBusca = "Ourense";
+    String[]concellos;
 
     Estado estado;
     ArrayList<Estado> Galicia = new ArrayList<>();
@@ -128,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         }
         new JSONParse().execute();
 
+
     }
 
     private class JSONParse extends AsyncTask<String, String, JSONObject> {
@@ -165,13 +169,14 @@ public class MainActivity extends AppCompatActivity {
                     String cielo = c.getString(TAG_CIELO);
                     double var = c.getDouble(TAG_VAR);
                     double temp = c.getDouble(TAG_TEMP);
+                    concello = city;
                     estadoCielo = cielo;
                     sensTermica = var;
                     temperatura = temp;
-                    concello = city;
-                    estado = new Estado (concello,estadoCielo,sensTermica,temperatura);
+                    estado = new Estado(concello, estadoCielo,sensTermica,temperatura);
                     Galicia.add(estado);
                     if (city.equals(concelloBusca)){
+
                         TextView view_temp = (TextView) findViewById(R.id.text_temperatura);
                         view_temp.setText(temperatura+"º");
                         TextView view_city = (TextView) findViewById(R.id.text_ciudad);
@@ -378,7 +383,14 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-
+                Spinner spinner = (Spinner) findViewById(R.id.spinner);
+                concellos = new String[Galicia.size()];
+                for (int i=0;i<Galicia.size();i++){
+                    concellos[i]=Galicia.get(i).getConcello();
+                }
+                ArrayAdapter adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, concellos);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -388,7 +400,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void change_city(MenuItem item) {
-        concelloBusca = "A Fonsagrada";
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+        concelloBusca = spinner.getSelectedItem().toString();
+        Galicia.clear();
 
         new JSONParse().execute();
     }

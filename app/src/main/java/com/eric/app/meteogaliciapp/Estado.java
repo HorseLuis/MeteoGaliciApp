@@ -17,6 +17,7 @@ public class Estado {
     }
 
     public Estado (String concello, String estadoCielo, double sensTermica, double temperatura){
+        this.concello = concello;
         this.estadoCielo = estadoCielo;
         this.sensTermica = sensTermica;
         this.temperatura= temperatura;
