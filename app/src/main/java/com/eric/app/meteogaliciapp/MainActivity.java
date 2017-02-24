@@ -1,40 +1,15 @@
 package com.eric.app.meteogaliciapp;
 
-import android.app.Activity;
-import android.app.Application;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.graphics.Color;
-import android.net.http.HttpResponseCache;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds;
-import android.provider.ContactsContract.CommonDataKinds.Note;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.JsonReader;
-import android.util.Log;
-import android.util.Xml;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.webkit.HttpAuthHandler;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,43 +17,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
-import org.xml.sax.InputSource;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Result;
-
-import static android.R.attr.category;
 
 public class MainActivity extends AppCompatActivity {
     int aux = 0;
@@ -153,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
             JSONParser jParser = new JSONParser();
 
             // Getting JSON from URL
-            JSONObject json = jParser.getJSONFromUrl(pag);
-            return json;
+            return jParser.getJSONFromUrl(pag);
         }
         @Override
         protected void onPostExecute(JSONObject json) {
@@ -372,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                         dato_cielo.setText(datasky);
 
                         ImageView view_var = (ImageView) findViewById(R.id.tendencia_temperatura);
-                        int imgres1 = 0;
+                        int imgres1;
                         if (sensTermica<temperatura){
                             imgres1 = R.drawable.icono_temp_baja;
                         }
@@ -392,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i=0;i<Galicia.size();i++){
                         concellos[i]=Galicia.get(i).getConcello();
                     }
-                    ArrayAdapter adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, concellos);
+                    ArrayAdapter adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, concellos);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(adapter);
                 }
