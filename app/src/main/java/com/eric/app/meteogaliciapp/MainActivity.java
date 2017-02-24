@@ -81,12 +81,13 @@ import javax.xml.transform.Result;
 import static android.R.attr.category;
 
 public class MainActivity extends AppCompatActivity {
+    int aux = 0;
     String pag = "http://servizos.meteogalicia.gal/rss/observacion/observacionConcellos.action";
     String estadoCielo;
     double sensTermica;
     double temperatura;
     String concello;
-    public String concelloBusca = "Ourense";
+    public String concelloBusca = "A Baña";
     String[]concellos;
 
     Estado estado;
@@ -173,8 +174,11 @@ public class MainActivity extends AppCompatActivity {
                     estadoCielo = cielo;
                     sensTermica = var;
                     temperatura = temp;
-                    estado = new Estado(concello, estadoCielo,sensTermica,temperatura);
-                    Galicia.add(estado);
+                    if (aux==0){
+                        estado = new Estado(concello, estadoCielo,sensTermica,temperatura);
+                        Galicia.add(estado);
+                    }
+
                     if (city.equals(concelloBusca)){
 
                         TextView view_temp = (TextView) findViewById(R.id.text_temperatura);
@@ -382,16 +386,18 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-
-                Spinner spinner = (Spinner) findViewById(R.id.spinner);
-                concellos = new String[Galicia.size()];
-                for (int i=0;i<Galicia.size();i++){
-                    concellos[i]=Galicia.get(i).getConcello();
+                if (aux==0){
+                    Spinner spinner = (Spinner) findViewById(R.id.spinner);
+                    concellos = new String[Galicia.size()];
+                    for (int i=0;i<Galicia.size();i++){
+                        concellos[i]=Galicia.get(i).getConcello();
+                    }
+                    ArrayAdapter adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, concellos);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
                 }
-                ArrayAdapter adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, concellos);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
 
+                aux++;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -401,9 +407,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void change_city(MenuItem item) {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-
         concelloBusca = spinner.getSelectedItem().toString();
-        Galicia.clear();
 
         new JSONParse().execute();
     }
