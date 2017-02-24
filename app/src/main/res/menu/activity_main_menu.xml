@@ -8,7 +8,8 @@
         android:id="@+id/action_change"
         android:icon="@drawable/ic_action_change"
         android:title="@string/action_change"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:onClick="change_city"/>
 
 
 </menu>

@@ -7,43 +7,40 @@ package com.eric.app.meteogaliciapp;
 public class Estado {
 
 
-    private int estadoCielo;
-    private int varTemperatura;
+    private String concello;
+    private String estadoCielo;
+    private double sensTermica;
     private double temperatura;
 
     public Estado(){
 
     }
 
-    public Estado (int estadoCielo, int varTemperatura, int temperatura){
+    public Estado (String concello, String estadoCielo, double sensTermica, double temperatura){
         this.estadoCielo = estadoCielo;
-        this.varTemperatura = varTemperatura;
+        this.sensTermica = sensTermica;
         this.temperatura= temperatura;
     }
 
-    public int getEstadoCielo(){
+    public String getConcello() {
+        return concello;
+    }
+
+    public String getEstadoCielo() {
         return estadoCielo;
+    }
+
+    public double getSensTermica() {
+        return sensTermica;
     }
 
     public double getTemperatura() {
         return temperatura;
     }
 
-    public int getVarTemperatura() {
-        return varTemperatura;
-    }
 
-    public void setEstadoCielo(int estadoCielo) {
-        this.estadoCielo = estadoCielo;
-    }
 
-    public void setVarTemperatura(int varTemperatura) {
-        this.varTemperatura = varTemperatura;
-    }
 
-    public void setTemperatura(double temperatura) {
-        this.temperatura = temperatura;
-    }
 
 }
 

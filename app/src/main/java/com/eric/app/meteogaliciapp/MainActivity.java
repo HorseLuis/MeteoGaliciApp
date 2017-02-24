@@ -6,6 +6,8 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.net.http.HttpResponseCache;
 import android.content.Context;
@@ -66,6 +68,7 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -81,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
     double sensTermica;
     double temperatura;
     String concello;
+    public String concelloBusca = "Ourense";
+
+    Estado estado;
+    ArrayList<Estado> Galicia = new ArrayList<>();
 
     private static final String TAG_CIELO = "icoEstadoCeo";
     private static final String TAG_VAR = "sensacionTermica";
@@ -155,18 +162,16 @@ public class MainActivity extends AppCompatActivity {
 
                     // Storing  JSON item in a Variable
                     String city = c.getString(TAG_CITY);
-                    if (city.equals("Ourense")){
-                        String cielo = c.getString(TAG_CIELO);
-                        double var = c.getDouble(TAG_VAR);
-                        double temp = c.getDouble(TAG_TEMP);
-
-
-                        //Set JSON Data in TextView
-                        estadoCielo = cielo;
-                        sensTermica = var;
-                        temperatura = temp;
-                        concello = city;
-
+                    String cielo = c.getString(TAG_CIELO);
+                    double var = c.getDouble(TAG_VAR);
+                    double temp = c.getDouble(TAG_TEMP);
+                    estadoCielo = cielo;
+                    sensTermica = var;
+                    temperatura = temp;
+                    concello = city;
+                    estado = new Estado (concello,estadoCielo,sensTermica,temperatura);
+                    Galicia.add(estado);
+                    if (city.equals(concelloBusca)){
                         TextView view_temp = (TextView) findViewById(R.id.text_temperatura);
                         view_temp.setText(temperatura+"º");
                         TextView view_city = (TextView) findViewById(R.id.text_ciudad);
@@ -380,6 +385,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    public void change_city(MenuItem item) {
+        concelloBusca = "A Fonsagrada";
+
+        new JSONParse().execute();
     }
 
 }
