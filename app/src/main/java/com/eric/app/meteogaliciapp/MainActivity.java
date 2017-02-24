@@ -20,6 +20,9 @@ import android.util.JsonReader;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.HttpAuthHandler;
 import android.widget.ArrayAdapter;
@@ -30,6 +33,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,6 +88,28 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_CITY = "nomeConcello";
 
     JSONArray datos = null;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_change:
+                action(R.string.action_change);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    private void action(int resid) {
+        Toast.makeText(this, getText(resid), Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
