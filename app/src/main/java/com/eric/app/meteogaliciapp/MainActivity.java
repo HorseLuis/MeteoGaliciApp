@@ -30,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public String concelloBusca = "A Baña";
     String[]concellos;
 
-    Estado estado;
-    ArrayList<Estado> Galicia = new ArrayList<>();
+    ArrayList<String> Galicia = new ArrayList<>();
 
     private static final String TAG_CIELO = "icoEstadoCeo";
     private static final String TAG_VAR = "sensacionTermica";
@@ -114,8 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     sensTermica = var;
                     temperatura = temp;
                     if (aux==0){
-                        estado = new Estado(concello, estadoCielo,sensTermica,temperatura);
-                        Galicia.add(estado);
+                        Galicia.add(concello);
                     }
 
                     if (city.equals(concelloBusca)){
@@ -329,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
                     Spinner spinner = (Spinner) findViewById(R.id.spinner);
                     concellos = new String[Galicia.size()];
                     for (int i=0;i<Galicia.size();i++){
-                        concellos[i]=Galicia.get(i).getConcello();
+                        concellos[i]=Galicia.get(i);
                     }
                     ArrayAdapter adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, concellos);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
