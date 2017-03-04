@@ -312,12 +312,15 @@ public class MainActivity extends AppCompatActivity {
                         int imgres1;
                         if (sensTermica<temperatura){
                             imgres1 = R.drawable.icono_temp_baja;
+                            //ICONO DE TERMOMETRO EN DESCENSO CUANDO LA SENSACION TERMICA ES MENOR QUE LA TEMPERATURA
                         }
                         else if (sensTermica>temperatura){
                             imgres1 = R.drawable.icono_temp_sube;
+                            //ICONO DE TERMOMETRO EN DESCENSO CUANDO LA SENSACION TERMICA ES MAYOR QUE LA TEMPERATURA
                         }
                         else {
                             imgres1 = R.drawable.icono_temp_estable;
+                            //ICONO DE TERMOMETRO ESTABLE CUANDO LA SENSACION TERMICA ES IGUAL QUE LA TEMPERATURA
                         }
                         view_var.setImageResource(imgres1);
                     }
