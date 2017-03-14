@@ -28,12 +28,21 @@
         android:layout_gravity="right"
         android:id="@+id/spinner"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/ciudad_texto"
+        android:textColor="@color/text_primary"
+        android:text="@string/texto_concello"
+        android:id="@+id/text_ciudad"
+        android:layout_marginBottom="24dp"/>
 
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginBottom="24dp"
-            android:layout_marginTop="55dp"
             app:srcCompat="@mipmap/ic_launcher"
             android:id="@+id/estado_cielo" />
 
@@ -60,15 +69,8 @@
     </LinearLayout>
 
 
-
-
-
-
-
-
-
     <TextView
-        android:text="TREBOADA POUCAS NUBES"
+        android:text="@string/texto_cielo"
         android:textSize="20sp"
         android:gravity="right"
         android:layout_width="wrap_content"
@@ -89,15 +91,116 @@
         android:background="#FFFFFF"
         android:id="@+id/progressBar2"
         android:progress="0"/>
-    <TextView
-        android:layout_width="wrap_content"
+
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:textSize="@dimen/ciudad_texto"
-        android:textColor="@color/text_primary"
-        android:text="Ourense"
-        android:id="@+id/text_ciudad"
-        android:layout_marginBottom="24dp"/>
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/imgdia1"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/dia1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tempdia1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imgdia2"
+                android:layout_gravity="center"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/dia2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tempdia2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imgdia3"
+                android:layout_gravity="center"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/dia3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tempdia3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imgdia4"
+                android:layout_gravity="center"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/dia4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tempdia4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

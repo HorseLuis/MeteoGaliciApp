@@ -3,4 +3,6 @@
     <string name="ciudad">Ourense</string>
     <string name="temperatura">0</string>
     <string name="action_change">Cambiar</string>
+    <string name="texto_cielo">TREBOADA POUCAS NUBES</string>
+    <string name="texto_concello">Santiago de Compostela</string>
 </resources>

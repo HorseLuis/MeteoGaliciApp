@@ -17,25 +17,42 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+
+import static com.eric.app.meteogaliciapp.R.string.temperatura;
 
 public class MainActivity extends AppCompatActivity {
     int aux = 0;
     String pag = "http://servizos.meteogalicia.gal/rss/observacion/observacionConcellos.action";
+    String url2 ="http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona=32054&dia=-1&request_locale=gl";
+
     String estadoCielo;
     double sensTermica;
     double temperatura;
     String concello;
+    String id;
     public String concelloBusca = "A Baña";
     String[]concellos;
 
     ArrayList<String> Galicia = new ArrayList<>();
+    ArrayList<String> Ids = new ArrayList<>();
 
     private static final String TAG_CIELO = "icoEstadoCeo";
     private static final String TAG_VAR = "sensacionTermica";
     private static final String TAG_TEMP = "temperatura";
     private static final String TAG_CITY = "nomeConcello";
+    private static final String TAG_ID = "idConcello";
 
     JSONArray datos = null;
 
@@ -70,9 +87,11 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
         new JSONParse().execute();
+        new MostrarTiempo().execute(url2);
 
 
     }
+
 
     private class JSONParse extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
@@ -80,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Getting Data ...");
+            pDialog.setMessage("Obteniendo Datos ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -108,12 +127,15 @@ public class MainActivity extends AppCompatActivity {
                     String cielo = c.getString(TAG_CIELO);
                     double var = c.getDouble(TAG_VAR);
                     double temp = c.getDouble(TAG_TEMP);
+                    String idd = c.getString(TAG_ID);
                     concello = city;
                     estadoCielo = cielo;
                     sensTermica = var;
                     temperatura = temp;
+                    id = idd;
                     if (aux==0){
                         Galicia.add(concello);
+                        Ids.add(id);
                     }
 
                     if (city.equals(concelloBusca)){
@@ -344,6 +366,205 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+    class MostrarTiempo extends AsyncTask<String, Void, ArrayList<Tiempo>> {
+        @Override
+
+        protected ArrayList<Tiempo> doInBackground(String... strings) {
+            ArrayList<Tiempo> prediccion = new ArrayList<>();
+            Tiempo t;
+            Tiempo tiempo = null;
+            InputStream is = null;
+
+            try {
+                int responseCode;
+
+                URLConnection connection = null;
+                connection = (new URL(strings[0])).openConnection();
+
+                if (!(connection instanceof HttpURLConnection)) {
+                    throw new IOException("Not HTTP connection");
+                }
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
+                httpURLConnection.setAllowUserInteraction(false);
+                httpURLConnection.setInstanceFollowRedirects(true);
+                httpURLConnection.setRequestMethod("GET");
+                httpURLConnection.connect();
+                responseCode = httpURLConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    is = httpURLConnection.getInputStream();
+                }
+                XmlPullParserFactory factory;
+                try {
+                    factory = XmlPullParserFactory.newInstance();
+                    factory.setNamespaceAware(true);
+                    XmlPullParser xpp = factory.newPullParser();
+                    xpp.setInput(is, null);
+                    int eventType = xpp.getEventType();
+                    while (eventType != XmlPullParser.END_DOCUMENT) {
+                        if (eventType == XmlPullParser.START_TAG) {
+                            String data1 = "";
+                            String tMax = "";
+                            String tMin = "";
+                            String ceoT = "";
+                            for (int i = 0; i < 3; i++) {
+
+                                if (xpp.getName().equals("dataPredicion")) {
+                                    data1 = xpp.nextText();
+                                }
+                                if (xpp.getName().equals("tMax")) {
+                                    tMax = xpp.nextText();
+                                }
+                                if (xpp.getName().equals("tMin")) {
+                                    tMin = xpp.nextText();
+                                }
+                                if (xpp.getName().equals("ceoT")) {
+                                    ceoT = xpp.nextText();
+                                }
+                                Tiempo tiempo1 = new Tiempo(data1, tMax, tMin, ceoT);
+                                prediccion.add(tiempo1);
+                            }
+
+
+                        } else if (eventType == XmlPullParser.TEXT) {
+
+                        }
+                        eventType = xpp.next();
+                    }
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (is != null) {
+                    is.close();
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return prediccion;
+        }
+
+        //---when all the images have been downloaded---
+        @Override
+        protected void onPostExecute(ArrayList<Tiempo> tiemp) {
+            ImageView imgdia1 = (ImageView) findViewById(R.id.imgdia1);
+            TextView dia1 = (TextView) findViewById(R.id.dia1);
+            TextView tempdia1 = (TextView) findViewById(R.id.tempdia1);
+
+            ImageView imgdia2 = (ImageView) findViewById(R.id.imgdia2);
+            TextView dia2 = (TextView) findViewById(R.id.dia2);
+            TextView tempdia2 = (TextView) findViewById(R.id.tempdia2);
+
+            ImageView imgdia3 = (ImageView) findViewById(R.id.imgdia3);
+            TextView dia3 = (TextView) findViewById(R.id.dia3);
+            TextView tempdia3 = (TextView) findViewById(R.id.tempdia3);
+
+            ImageView imgdia4 = (ImageView) findViewById(R.id.imgdia4);
+            TextView dia4 = (TextView) findViewById(R.id.dia4);
+            TextView tempdia4 = (TextView) findViewById(R.id.tempdia4);
+
+            ArrayList<Tiempo> tiempo = tiemp;
+
+            dia1.setText(tiempo.get(0).getData());
+            tempdia1.setText(tiempo.get(0).gettMin()+"º / "+tiempo.get(0).gettMax()+"º");
+
+            dia2.setText(tiempo.get(1).getData());
+            tempdia2.setText(tiempo.get(1).gettMin()+"º / "+tiempo.get(1).gettMax()+"º");
+
+            dia3.setText(tiempo.get(2).getData());
+            tempdia3.setText(tiempo.get(2).gettMin()+"º / "+tiempo.get(2).gettMax()+"º");
+
+            dia4.setText(tiempo.get(3).getData());
+            tempdia4.setText(tiempo.get(3).gettMin()+"º / "+tiempo.get(3).gettMax()+"º");
+
+
+            switch (tiempo.get(0).getCeoT()) {
+                case "101":
+                    break;
+                case "103":
+                    break;
+                case "105":
+                    break;
+                case "107":
+                    break;
+                case "111":
+                    break;
+                case "201":
+                    break;
+                case "211":
+                    break;
+                case "-9999":
+                    break;
+            }
+            switch (tiempo.get(1).getCeoT()) {
+                case "101":
+                    break;
+                case "103":
+                    break;
+                case "105":
+                    break;
+                case "107":
+                    break;
+                case "111":
+                    break;
+                case "201":
+                    break;
+                case "211":
+                    break;
+                case "-9999":
+                    break;
+            }
+            switch (tiempo.get(2).getCeoT()) {
+                case "101":
+                    break;
+                case "103":
+                    break;
+                case "105":
+                    break;
+                case "107":
+                    break;
+                case "111":
+                    break;
+                case "201":
+                    break;
+                case "211":
+                    break;
+                case "-9999":
+                    break;
+            }
+            switch (tiempo.get(3).getCeoT()) {
+                case "101":
+                    break;
+                case "103":
+                    break;
+                case "105":
+                    break;
+                case "107":
+                    break;
+                case "111":
+                    break;
+                case "201":
+                    break;
+                case "211":
+                    break;
+                case "-9999":
+                    break;
+            }
+
+
+
+
+
+        }
+
+    }
+
+
+
+
 
     public void change_city(MenuItem item) {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -351,5 +572,6 @@ public class MainActivity extends AppCompatActivity {
 
         new JSONParse().execute();
     }
+
 
 }
