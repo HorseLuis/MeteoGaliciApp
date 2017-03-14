@@ -5,10 +5,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
+import android.text.style.TtsSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,7 +31,13 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import static com.eric.app.meteogaliciapp.R.string.temperatura;
 
@@ -42,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
     double temperatura;
     String concello;
     String id;
-    public String concelloBusca = "A Baña";
-    public String idConcelloBusca = "15007";
+    public String concelloBusca = "Ourense";
+    public String idConcelloBusca = "32054";
     String[]concellos;
 
     ArrayList<String> Galicia = new ArrayList<>();
@@ -89,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         }
         url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
         new JSONParse().execute();
-        new MostrarTiempo().execute(url2);
+        new MostrarTiempoCortoPlazo().execute(url2);
 
 
     }
@@ -368,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-    class MostrarTiempo extends AsyncTask<String, Void, ArrayList<Tiempo>> {
+    class MostrarTiempoCortoPlazo extends AsyncTask<String, Void, ArrayList<Tiempo>> {
         @Override
 
         protected ArrayList<Tiempo> doInBackground(String... strings) {
@@ -1032,10 +1041,6 @@ public class MainActivity extends AppCompatActivity {
             }
             imgdia4.setImageResource(imgres);
 
-
-
-
-
         }
 
     }
@@ -1046,7 +1051,7 @@ public class MainActivity extends AppCompatActivity {
         idConcelloBusca = Ids.get(Galicia.indexOf(concelloBusca));
         new JSONParse().execute();
         url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
-        new MostrarTiempo().execute(url2);
+        new MostrarTiempoCortoPlazo().execute(url2);
     }
 
 
