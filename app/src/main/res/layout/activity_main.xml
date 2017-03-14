@@ -116,12 +116,14 @@
                 android:layout_height="40dp" />
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/dia1"
+                android:id="@+id/tempdia1"
+                android:textSize="@dimen/text_tempdia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/tempdia1"
+                android:id="@+id/dia1"
+                android:textSize="@dimen/text_fecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -140,12 +142,14 @@
                 android:layout_height="40dp" />
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/dia2"
+                android:id="@+id/tempdia2"
+                android:textSize="@dimen/text_tempdia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/tempdia2"
+                android:id="@+id/dia2"
+                android:textSize="@dimen/text_fecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -164,12 +168,14 @@
                 android:layout_height="40dp" />
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/dia3"
+                android:id="@+id/tempdia3"
+                android:textSize="@dimen/text_tempdia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/tempdia3"
+                android:id="@+id/dia3"
+                android:textSize="@dimen/text_fecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -188,12 +194,14 @@
                 android:layout_height="40dp" />
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/dia4"
+                android:id="@+id/tempdia4"
+                android:textSize="@dimen/text_tempdia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/tempdia4"
+                android:id="@+id/dia4"
+                android:textSize="@dimen/text_fecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
