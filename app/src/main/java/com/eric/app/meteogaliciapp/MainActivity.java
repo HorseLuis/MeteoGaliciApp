@@ -378,8 +378,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     class MostrarTiempoCortoPlazo extends AsyncTask<String, Void, ArrayList<Tiempo>> {
+        private ProgressDialog pDialog;
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Obteniendo Datos ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
 
+        }
+
+        @Override
         protected ArrayList<Tiempo> doInBackground(String... strings) {
             ArrayList<Tiempo> prediccion = new ArrayList<>();
             Tiempo t;
@@ -462,6 +473,8 @@ public class MainActivity extends AppCompatActivity {
         //---when all the images have been downloaded---
         @Override
         protected void onPostExecute(ArrayList<Tiempo> tiemp) {
+            pDialog.dismiss();
+
             ImageView imgdia1 = (ImageView) findViewById(R.id.imgdia1);
             TextView dia1 = (TextView) findViewById(R.id.dia1);
             TextView tempdia1 = (TextView) findViewById(R.id.tempdia1);
