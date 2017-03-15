@@ -27,13 +27,6 @@ public class ExtendedActivity extends AppCompatActivity {
     String Concello;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_extended_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         Concello = getIntent().getStringExtra("CONCELLO");
         idConcello = getIntent().getStringExtra("ID");
