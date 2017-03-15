@@ -1,17 +1,16 @@
 package com.eric.app.meteogaliciapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateUtils;
-import android.text.style.TtsSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,26 +19,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
-import static com.eric.app.meteogaliciapp.R.string.temperatura;
 
 public class MainActivity extends AppCompatActivity {
     int aux = 0;
@@ -98,10 +79,12 @@ public class MainActivity extends AppCompatActivity {
         }
         url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
         new JSONParse().execute();
-        new MostrarTiempoCortoPlazo().execute(url2);
+        new MostrarPrediccion().execute(url2);
 
 
     }
+
+
 
 
     private class JSONParse extends AsyncTask<String, String, JSONObject> {
@@ -377,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-    class MostrarTiempoCortoPlazo extends AsyncTask<String, Void, ArrayList<Tiempo>> {
+    class MostrarPrediccion extends AsyncTask<String, Void, ArrayList<Tiempo>> {
         private ProgressDialog pDialog;
         @Override
         protected void onPreExecute() {
@@ -392,82 +375,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<Tiempo> doInBackground(String... strings) {
-            ArrayList<Tiempo> prediccion = new ArrayList<>();
-            Tiempo t;
-            Tiempo tiempo = null;
-            InputStream is = null;
-
-            try {
-                int responseCode;
-
-                URLConnection connection = null;
-                connection = (new URL(strings[0])).openConnection();
-
-                if (!(connection instanceof HttpURLConnection)) {
-                    throw new IOException("Not HTTP connection");
-                }
-
-                HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
-                httpURLConnection.setAllowUserInteraction(false);
-                httpURLConnection.setInstanceFollowRedirects(true);
-                httpURLConnection.setRequestMethod("GET");
-                httpURLConnection.connect();
-                responseCode = httpURLConnection.getResponseCode();
-
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    is = httpURLConnection.getInputStream();
-                }
-                XmlPullParserFactory factory;
-                try {
-                    factory = XmlPullParserFactory.newInstance();
-                    factory.setNamespaceAware(true);
-                    XmlPullParser xpp = factory.newPullParser();
-                    xpp.setInput(is, null);
-                    int eventType = xpp.getEventType();
-                    Tiempo tiempo1;
-                    String data1 = "";
-                    String tMax = "";
-                    String tMin = "";
-                    String ceoT = "";
-                    while (eventType != XmlPullParser.END_DOCUMENT) {
-                        if (eventType == XmlPullParser.START_TAG) {
-
-                            if (xpp.getName().equals("dataPredicion")) {
-                                    data1 = xpp.nextText();
-                                }
-                                if (xpp.getName().equals("tMax")) {
-                                    tMax = xpp.nextText();
-                                }
-                                if (xpp.getName().equals("tMin")) {
-                                    tMin = xpp.nextText();
-                                }
-                                if (xpp.getName().equals("ceoT")) {
-                                    ceoT = xpp.nextText();
-                                    tiempo1 = new Tiempo(data1, tMax, tMin, ceoT);
-                                    prediccion.add(tiempo1);
-                                }
-
-
-
-
-                        } else if (eventType == XmlPullParser.TEXT) {
-
-                        }
-                        eventType = xpp.next();
-                    }
-                } catch (XmlPullParserException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (is != null) {
-                    is.close();
-                }
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            return prediccion;
+            return XMLParser.descargarTiempo(strings[0]);
         }
 
         //---when all the images have been downloaded---
@@ -1064,7 +972,14 @@ public class MainActivity extends AppCompatActivity {
         idConcelloBusca = Ids.get(Galicia.indexOf(concelloBusca));
         new JSONParse().execute();
         url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
-        new MostrarTiempoCortoPlazo().execute(url2);
+        new MostrarPrediccion().execute(url2);
+    }
+
+    public void extend_prediction(View view) {
+        Intent intent = new Intent(this, ExtendedActivity.class);
+        intent.putExtra("CONCELLO",concelloBusca);
+        intent.putExtra("ID",idConcelloBusca);
+        startActivity(intent);
     }
 
 

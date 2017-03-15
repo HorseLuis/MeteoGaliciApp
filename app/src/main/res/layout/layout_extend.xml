@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/layout_extend"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:background="@color/colorPrimaryDark">
+        <TextView
+            android:textSize="20sp"
+            android:layout_weight="2"
+            android:textColor="@color/text_primary"
+            android:id="@+id/fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"/>
+
+        <ImageView
+        android:id="@+id/ImgTMAX"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/text_primary"
+            android:id="@+id/TMAX"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"/>
+
+        <ImageView
+            android:id="@+id/ImgTMIN"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/text_primary"
+            android:id="@+id/TMIN"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:textColor="@color/text_primary"
+            android:text="@string/ma_ana"
+            android:id="@+id/Manhana"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/IMGcieloM"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="30dp"/>
+
+        <ImageView
+            android:id="@+id/imgRAINM"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:textColor="@color/text_primary"
+            android:id="@+id/RAINM"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:textColor="@color/text_primary"
+            android:text="@string/tarde"
+            android:id="@+id/Tarde"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/IMGcieloT"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="30dp"/>
+
+        <ImageView
+            android:id="@+id/imgRAINT"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:textColor="@color/text_primary"
+            android:id="@+id/RAINT"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+        <TextView
+            android:textColor="@color/text_primary"
+            android:text="@string/noche"
+            android:id="@+id/Noche"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/IMGcieloN"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="30dp"/>
+
+        <ImageView
+            android:id="@+id/imgRAINN"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:textColor="@color/text_primary"
+            android:id="@+id/RAINN"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"/>
+    </LinearLayout>
+
+
+</LinearLayout>

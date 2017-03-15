@@ -5,4 +5,7 @@
     <string name="action_change">Cambiar</string>
     <string name="texto_cielo">TREBOADA POUCAS NUBES</string>
     <string name="texto_concello">Santiago de Compostela</string>
+    <string name="ma_ana">Mañá:</string>
+    <string name="tarde">Tarde:</string>
+    <string name="noche">Noite: </string>
 </resources>
