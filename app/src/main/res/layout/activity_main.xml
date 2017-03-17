@@ -98,123 +98,15 @@
         android:progress="0"/>
 
 
-
-
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:clickable="true"
         android:onClick="extend_prediction"
-        android:layout_marginTop="20dp">
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_gravity="center"
-                android:id="@+id/imgdia1"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/tempdia1"
-                android:textSize="@dimen/text_tempdia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/dia1"
-                android:textSize="@dimen/text_fecha"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ImageView
-                android:id="@+id/imgdia2"
-                android:layout_gravity="center"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/tempdia2"
-                android:textSize="@dimen/text_tempdia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/dia2"
-                android:textSize="@dimen/text_fecha"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ImageView
-                android:id="@+id/imgdia3"
-                android:layout_gravity="center"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/tempdia3"
-                android:textSize="@dimen/text_tempdia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/dia3"
-                android:textSize="@dimen/text_fecha"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ImageView
-                android:id="@+id/imgdia4"
-                android:layout_gravity="center"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/tempdia4"
-                android:textSize="@dimen/text_tempdia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/dia4"
-                android:textSize="@dimen/text_fecha"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-
+        android:id="@+id/predict">
 
     </LinearLayout>
 

@@ -6,13 +6,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,10 +68,9 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
         url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
+
         new JSONParse().execute();
         new MostrarPrediccion().execute(url2);
-
-
     }
 
 
@@ -328,14 +330,15 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 if (aux==0){
-                    Spinner spinner = (Spinner) findViewById(R.id.spinner);
                     concellos = new String[Galicia.size()];
                     for (int i=0;i<Galicia.size();i++){
                         concellos[i]=Galicia.get(i);
                     }
+                    Spinner spinner=(Spinner)findViewById(R.id.spinner);
                     ArrayAdapter adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, concellos);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(adapter);
+
                 }
 
                 aux++;
@@ -367,590 +370,26 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Tiempo> tiemp) {
             pDialog.dismiss();
-
-            ImageView imgdia1 = (ImageView) findViewById(R.id.imgdia1);
-            TextView dia1 = (TextView) findViewById(R.id.dia1);
-            TextView tempdia1 = (TextView) findViewById(R.id.tempdia1);
-
-            ImageView imgdia2 = (ImageView) findViewById(R.id.imgdia2);
-            TextView dia2 = (TextView) findViewById(R.id.dia2);
-            TextView tempdia2 = (TextView) findViewById(R.id.tempdia2);
-
-            ImageView imgdia3 = (ImageView) findViewById(R.id.imgdia3);
-            TextView dia3 = (TextView) findViewById(R.id.dia3);
-            TextView tempdia3 = (TextView) findViewById(R.id.tempdia3);
-
-            ImageView imgdia4 = (ImageView) findViewById(R.id.imgdia4);
-            TextView dia4 = (TextView) findViewById(R.id.dia4);
-            TextView tempdia4 = (TextView) findViewById(R.id.tempdia4);
-
+            ViewGroup layout1 = (ViewGroup) findViewById(R.id.predict);
+            layout1.removeAllViews();
             ArrayList<Tiempo> tiempo = tiemp;
 
-            dia1.setText(tiempo.get(0).getData());
-            tempdia1.setText(tiempo.get(0).gettMin()+"º / "+tiempo.get(0).gettMax()+"º");
+            for (int i=0;i<tiempo.size();i++){
+                ViewGroup layout = (ViewGroup) findViewById(R.id.predict);
+                LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+                int id = R.layout.prediction;
+                LinearLayout linearLayout = (LinearLayout) inflater.inflate(id,null,false);
 
-            dia2.setText(tiempo.get(1).getData());
-            tempdia2.setText(tiempo.get(1).gettMin()+"º / "+tiempo.get(1).gettMax()+"º");
+                ImageView imgdia = (ImageView) linearLayout.findViewById(R.id.imgdia);
+                TextView dia = (TextView) linearLayout.findViewById(R.id.dia);
+                TextView tempdia = (TextView) linearLayout.findViewById(R.id.tempdia);
 
-            dia3.setText(tiempo.get(2).getData());
-            tempdia3.setText(tiempo.get(2).gettMin()+"º / "+tiempo.get(2).gettMax()+"º");
-            if (tiempo.size()>3){
-                dia4.setText(tiempo.get(3).getData());
-                tempdia4.setText(tiempo.get(3).gettMin()+"º / "+tiempo.get(3).gettMax()+"º");
+                dia.setText(tiempo.get(i).getData());
+                tempdia.setText(tiempo.get(i).gettMin()+"º / "+tiempo.get(i).gettMax()+"º");
+                imgdia.setImageResource(getCielo(tiempo.get(i).getCeoT()));
+
+                layout.addView(linearLayout);
             }
-
-
-            int imgres = 0;
-
-            switch (tiempo.get(0).getCeoT()) {
-                case "101":
-                    imgres = R.drawable.dia_despejado;
-                    break;
-                case "102":
-                    imgres = R.drawable.dia_nubesaltas;
-                    break;
-                case "103":
-                    imgres = R.drawable.dia_nubesclaros;
-                    break;
-                case "104":
-                    imgres = R.drawable.dia_nublado75;
-                    break;
-                case "105":
-                    imgres = R.drawable.nublado;
-                    break;
-                case "106":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "107":
-                    imgres = R.drawable.chuvasco;
-                    break;
-                case "108":
-                    imgres = R.drawable.chuvasco75;
-                    break;
-                case "109":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "110":
-                    imgres = R.drawable.orballo;
-                    break;
-                case "111":
-                    imgres = R.drawable.lluvia;
-                    break;
-                case "112":
-                    imgres = R.drawable.nieve;
-                    break;
-                case "113":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "114":
-                    imgres = R.drawable.neblina;
-                    break;
-                case "115":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "116":
-                    imgres = R.drawable.nubemedia;
-                    break;
-                case "117":
-                    imgres = R.drawable.orballo;
-                    break;
-                case "118":
-                    imgres = R.drawable.chuvasco_debil;
-                    break;
-                case "119":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "120":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "121":
-                    imgres = R.drawable.ventisca;
-                    break;
-
-
-                case "201":
-                    imgres = R.drawable.noche_despejado;
-                    break;
-                case "202":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "203":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "204":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "205":
-                    imgres = R.drawable.nublado;
-                    break;
-                case "206":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "207":
-                    imgres = R.drawable.chuvasco;
-                    break;
-                case "208":
-                    imgres = R.drawable.noche_lluvianubes;
-                    break;
-                case "209":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "210":
-                    imgres = R.drawable.orballo;
-                    break;
-                case "211":
-                    imgres = R.drawable.noche_lluvia;
-                    break;
-                case "212":
-                    imgres = R.drawable.noche_nieve;
-                    break;
-                case "213":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "214":
-                    imgres = R.drawable.neblina;
-                    break;
-                case "215":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "216":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "217":
-                    imgres = R.drawable.noche_lluvianubes;
-                    break;
-                case "218":
-                    imgres = R.drawable.noche_lluvianubes;
-                    break;
-                case "219":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "220":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "221":
-                    imgres = R.drawable.ventisca;
-                    break;
-
-
-                case "-9999":
-                    imgres = R.drawable.icono_void;
-                    break;
-            }
-            imgdia1.setImageResource(imgres);
-            switch (tiempo.get(1).getCeoT()) {
-                case "101":
-                    imgres = R.drawable.dia_despejado;
-                    break;
-                case "102":
-                    imgres = R.drawable.dia_nubesaltas;
-                    break;
-                case "103":
-                    imgres = R.drawable.dia_nubesclaros;
-                    break;
-                case "104":
-                    imgres = R.drawable.dia_nublado75;
-                    break;
-                case "105":
-                    imgres = R.drawable.nublado;
-                    break;
-                case "106":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "107":
-                    imgres = R.drawable.chuvasco;
-                    break;
-                case "108":
-                    imgres = R.drawable.chuvasco75;
-                    break;
-                case "109":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "110":
-                    imgres = R.drawable.orballo;
-                    break;
-                case "111":
-                    imgres = R.drawable.lluvia;
-                    break;
-                case "112":
-                    imgres = R.drawable.nieve;
-                    break;
-                case "113":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "114":
-                    imgres = R.drawable.neblina;
-                    break;
-                case "115":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "116":
-                    imgres = R.drawable.nubemedia;
-                    break;
-                case "117":
-                    imgres = R.drawable.orballo;
-                    break;
-                case "118":
-                    imgres = R.drawable.chuvasco_debil;
-                    break;
-                case "119":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "120":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "121":
-                    imgres = R.drawable.ventisca;
-                    break;
-
-
-                case "201":
-                    imgres = R.drawable.noche_despejado;
-                    break;
-                case "202":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "203":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "204":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "205":
-                    imgres = R.drawable.nublado;
-                    break;
-                case "206":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "207":
-                    imgres = R.drawable.chuvasco;
-                    break;
-                case "208":
-                    imgres = R.drawable.noche_lluvianubes;
-                    break;
-                case "209":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "210":
-                    imgres = R.drawable.orballo;
-                    break;
-                case "211":
-                    imgres = R.drawable.noche_lluvia;
-                    break;
-                case "212":
-                    imgres = R.drawable.noche_nieve;
-                    break;
-                case "213":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "214":
-                    imgres = R.drawable.neblina;
-                    break;
-                case "215":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "216":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "217":
-                    imgres = R.drawable.noche_lluvianubes;
-                    break;
-                case "218":
-                    imgres = R.drawable.noche_lluvianubes;
-                    break;
-                case "219":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "220":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "221":
-                    imgres = R.drawable.ventisca;
-                    break;
-
-
-                case "-9999":
-                    imgres = R.drawable.icono_void;
-                    break;
-            }
-            imgdia2.setImageResource(imgres);
-
-            switch (tiempo.get(2).getCeoT()) {
-                case "101":
-                    imgres = R.drawable.dia_despejado;
-                    break;
-                case "102":
-                    imgres = R.drawable.dia_nubesaltas;
-                    break;
-                case "103":
-                    imgres = R.drawable.dia_nubesclaros;
-                    break;
-                case "104":
-                    imgres = R.drawable.dia_nublado75;
-                    break;
-                case "105":
-                    imgres = R.drawable.nublado;
-                    break;
-                case "106":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "107":
-                    imgres = R.drawable.chuvasco;
-                    break;
-                case "108":
-                    imgres = R.drawable.chuvasco75;
-                    break;
-                case "109":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "110":
-                    imgres = R.drawable.orballo;
-                    break;
-                case "111":
-                    imgres = R.drawable.lluvia;
-                    break;
-                case "112":
-                    imgres = R.drawable.nieve;
-                    break;
-                case "113":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "114":
-                    imgres = R.drawable.neblina;
-                    break;
-                case "115":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "116":
-                    imgres = R.drawable.nubemedia;
-                    break;
-                case "117":
-                    imgres = R.drawable.orballo;
-                    break;
-                case "118":
-                    imgres = R.drawable.chuvasco_debil;
-                    break;
-                case "119":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "120":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "121":
-                    imgres = R.drawable.ventisca;
-                    break;
-
-
-                case "201":
-                    imgres = R.drawable.noche_despejado;
-                    break;
-                case "202":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "203":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "204":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "205":
-                    imgres = R.drawable.nublado;
-                    break;
-                case "206":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "207":
-                    imgres = R.drawable.chuvasco;
-                    break;
-                case "208":
-                    imgres = R.drawable.noche_lluvianubes;
-                    break;
-                case "209":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "210":
-                    imgres = R.drawable.orballo;
-                    break;
-                case "211":
-                    imgres = R.drawable.noche_lluvia;
-                    break;
-                case "212":
-                    imgres = R.drawable.noche_nieve;
-                    break;
-                case "213":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "214":
-                    imgres = R.drawable.neblina;
-                    break;
-                case "215":
-                    imgres = R.drawable.niebla;
-                    break;
-                case "216":
-                    imgres = R.drawable.noche_nubemedia;
-                    break;
-                case "217":
-                    imgres = R.drawable.noche_lluvianubes;
-                    break;
-                case "218":
-                    imgres = R.drawable.noche_lluvianubes;
-                    break;
-                case "219":
-                    imgres = R.drawable.tormenta;
-                    break;
-                case "220":
-                    imgres = R.drawable.aguanieve;
-                    break;
-                case "221":
-                    imgres = R.drawable.ventisca;
-                    break;
-
-
-                case "-9999":
-                    imgres = R.drawable.icono_void;
-                    break;
-            }
-            imgdia3.setImageResource(imgres);
-
-            if (tiempo.size()>3){
-                switch (tiempo.get(3).getCeoT()) {
-                    case "101":
-                        imgres = R.drawable.dia_despejado;
-                        break;
-                    case "102":
-                        imgres = R.drawable.dia_nubesaltas;
-                        break;
-                    case "103":
-                        imgres = R.drawable.dia_nubesclaros;
-                        break;
-                    case "104":
-                        imgres = R.drawable.dia_nublado75;
-                        break;
-                    case "105":
-                        imgres = R.drawable.nublado;
-                        break;
-                    case "106":
-                        imgres = R.drawable.niebla;
-                        break;
-                    case "107":
-                        imgres = R.drawable.chuvasco;
-                        break;
-                    case "108":
-                        imgres = R.drawable.chuvasco75;
-                        break;
-                    case "109":
-                        imgres = R.drawable.aguanieve;
-                        break;
-                    case "110":
-                        imgres = R.drawable.orballo;
-                        break;
-                    case "111":
-                        imgres = R.drawable.lluvia;
-                        break;
-                    case "112":
-                        imgres = R.drawable.nieve;
-                        break;
-                    case "113":
-                        imgres = R.drawable.tormenta;
-                        break;
-                    case "114":
-                        imgres = R.drawable.neblina;
-                        break;
-                    case "115":
-                        imgres = R.drawable.niebla;
-                        break;
-                    case "116":
-                        imgres = R.drawable.nubemedia;
-                        break;
-                    case "117":
-                        imgres = R.drawable.orballo;
-                        break;
-                    case "118":
-                        imgres = R.drawable.chuvasco_debil;
-                        break;
-                    case "119":
-                        imgres = R.drawable.tormenta;
-                        break;
-                    case "120":
-                        imgres = R.drawable.aguanieve;
-                        break;
-                    case "121":
-                        imgres = R.drawable.ventisca;
-                        break;
-
-
-                    case "201":
-                        imgres = R.drawable.noche_despejado;
-                        break;
-                    case "202":
-                        imgres = R.drawable.noche_nubemedia;
-                        break;
-                    case "203":
-                        imgres = R.drawable.noche_nubemedia;
-                        break;
-                    case "204":
-                        imgres = R.drawable.noche_nubemedia;
-                        break;
-                    case "205":
-                        imgres = R.drawable.nublado;
-                        break;
-                    case "206":
-                        imgres = R.drawable.niebla;
-                        break;
-                    case "207":
-                        imgres = R.drawable.chuvasco;
-                        break;
-                    case "208":
-                        imgres = R.drawable.noche_lluvianubes;
-                        break;
-                    case "209":
-                        imgres = R.drawable.aguanieve;
-                        break;
-                    case "210":
-                        imgres = R.drawable.orballo;
-                        break;
-                    case "211":
-                        imgres = R.drawable.noche_lluvia;
-                        break;
-                    case "212":
-                        imgres = R.drawable.noche_nieve;
-                        break;
-                    case "213":
-                        imgres = R.drawable.tormenta;
-                        break;
-                    case "214":
-                        imgres = R.drawable.neblina;
-                        break;
-                    case "215":
-                        imgres = R.drawable.niebla;
-                        break;
-                    case "216":
-                        imgres = R.drawable.noche_nubemedia;
-                        break;
-                    case "217":
-                        imgres = R.drawable.noche_lluvianubes;
-                        break;
-                    case "218":
-                        imgres = R.drawable.noche_lluvianubes;
-                        break;
-                    case "219":
-                        imgres = R.drawable.tormenta;
-                        break;
-                    case "220":
-                        imgres = R.drawable.aguanieve;
-                        break;
-                    case "221":
-                        imgres = R.drawable.ventisca;
-                        break;
-
-
-                    case "-9999":
-                        imgres = R.drawable.icono_void;
-                        break;
-                }
-                imgdia4.setImageResource(imgres);
-            }
-
 
         }
 
@@ -971,6 +410,148 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("CONCELLO",concelloBusca);
         intent.putExtra("ID",idConcelloBusca);
         startActivity(intent);
+    }
+
+    private int getCielo(String sky){
+        int imgres = 0;
+        String cielo = sky;
+        switch(sky){
+            case "101":
+                imgres = R.drawable.dia_despejado;
+                break;
+            case "102":
+                imgres = R.drawable.dia_nubesaltas;
+                break;
+            case "103":
+                imgres = R.drawable.dia_nubesclaros;
+                break;
+            case "104":
+                imgres = R.drawable.dia_nublado75;
+                break;
+            case "105":
+                imgres = R.drawable.nublado;
+                break;
+            case "106":
+                imgres = R.drawable.niebla;
+                break;
+            case "107":
+                imgres = R.drawable.chuvasco;
+                break;
+            case "108":
+                imgres = R.drawable.chuvasco75;
+                break;
+            case "109":
+                imgres = R.drawable.aguanieve;
+                break;
+            case "110":
+                imgres = R.drawable.orballo;
+                break;
+            case "111":
+                imgres = R.drawable.lluvia;
+                break;
+            case "112":
+                imgres = R.drawable.nieve;
+                break;
+            case "113":
+                imgres = R.drawable.tormenta;
+                break;
+            case "114":
+                imgres = R.drawable.neblina;
+                break;
+            case "115":
+                imgres = R.drawable.niebla;
+                break;
+            case "116":
+                imgres = R.drawable.nubemedia;
+                break;
+            case "117":
+                imgres = R.drawable.orballo;
+                break;
+            case "118":
+                imgres = R.drawable.chuvasco_debil;
+                break;
+            case "119":
+                imgres = R.drawable.tormenta;
+                break;
+            case "120":
+                imgres = R.drawable.aguanieve;
+                break;
+            case "121":
+                imgres = R.drawable.ventisca;
+                break;
+
+
+            case "201":
+                imgres = R.drawable.noche_despejado;
+                break;
+            case "202":
+                imgres = R.drawable.noche_nubemedia;
+                break;
+            case "203":
+                imgres = R.drawable.noche_nubemedia;
+                break;
+            case "204":
+                imgres = R.drawable.noche_nubemedia;
+                break;
+            case "205":
+                imgres = R.drawable.nublado;
+                break;
+            case "206":
+                imgres = R.drawable.niebla;
+                break;
+            case "207":
+                imgres = R.drawable.chuvasco;
+                break;
+            case "208":
+                imgres = R.drawable.noche_lluvianubes;
+                break;
+            case "209":
+                imgres = R.drawable.aguanieve;
+                break;
+            case "210":
+                imgres = R.drawable.orballo;
+                break;
+            case "211":
+                imgres = R.drawable.noche_lluvia;
+                break;
+            case "212":
+                imgres = R.drawable.noche_nieve;
+                break;
+            case "213":
+                imgres = R.drawable.tormenta;
+                break;
+            case "214":
+                imgres = R.drawable.neblina;
+                break;
+            case "215":
+                imgres = R.drawable.niebla;
+                break;
+            case "216":
+                imgres = R.drawable.noche_nubemedia;
+                break;
+            case "217":
+                imgres = R.drawable.noche_lluvianubes;
+                break;
+            case "218":
+                imgres = R.drawable.noche_lluvianubes;
+                break;
+            case "219":
+                imgres = R.drawable.tormenta;
+                break;
+            case "220":
+                imgres = R.drawable.aguanieve;
+                break;
+            case "221":
+                imgres = R.drawable.ventisca;
+                break;
+
+
+            case "-9999":
+                imgres = R.drawable.icono_void;
+                break;
+        }
+
+        return imgres;
     }
 
 
