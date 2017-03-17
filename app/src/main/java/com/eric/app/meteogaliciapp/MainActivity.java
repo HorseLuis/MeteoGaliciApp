@@ -339,9 +339,19 @@ public class MainActivity extends AppCompatActivity {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(adapter);
 
+
+
                 }
 
                 aux++;
+
+                ViewGroup layout = (ViewGroup) findViewById(R.id.activity_main);
+                Toolbar toolbar = (Toolbar) layout.findViewById(R.id.toolbar);
+                if (Double.valueOf(estadoCielo)/2.0<100) {
+                    layout.setBackgroundResource(R.color.dayPrimary);
+                    toolbar.setBackgroundResource(R.color.dayPrimaryDark);
+
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
