@@ -61,7 +61,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/temperatura_texto"
             android:id="@+id/text_temperatura" />

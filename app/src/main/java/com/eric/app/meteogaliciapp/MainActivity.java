@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
         url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
-
         new JSONParse().execute();
         new MostrarPrediccion().execute(url2);
     }
