@@ -13,20 +13,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
-public class JSONParser {
+class JSONParser {
 
-    static InputStream is = null;
-    static JSONObject json = null;
-    static String output = "";
+    private static JSONObject json = null;
 
     // constructor
-    public JSONParser() {
+    JSONParser() {
 
     }
 
-    public JSONObject getJSONFromUrl(String url) {
+    static JSONObject getJSONFromUrl(String url) {
         URL _url;
         HttpURLConnection urlConnection;
 
@@ -43,8 +40,9 @@ public class JSONParser {
             return null;
         }
 
+        String output = "";
         try {
-            is = new BufferedInputStream(urlConnection.getInputStream());
+            InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             StringBuilder total = new StringBuilder(is.available());
             String line;

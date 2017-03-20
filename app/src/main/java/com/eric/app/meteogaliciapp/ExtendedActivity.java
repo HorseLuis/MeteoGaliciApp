@@ -1,16 +1,11 @@
 package com.eric.app.meteogaliciapp;
 
-import android.app.IntentService;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,8 +60,7 @@ public class ExtendedActivity extends AppCompatActivity {
         //---when all the images have been downloaded---
         @Override
         protected void onPostExecute(ArrayList<Tiempo> tiemp) {
-            ArrayList<Tiempo> tiempo = tiemp;
-            for (int i=0;i<tiempo.size();i++){
+            for (int i = 0; i< tiemp.size(); i++){
                 ViewGroup layout = (ViewGroup) findViewById(R.id.content);
                 LayoutInflater inflater = LayoutInflater.from(ExtendedActivity.this);
                 int id = R.layout.layout_extend;
@@ -76,39 +70,39 @@ public class ExtendedActivity extends AppCompatActivity {
 
                 //MODIFICO LOS ATRIBUTOS DE LAS VISTAS DE LA FILA PADRE
                 TextView fecha = (TextView) linearLayout.findViewById(R.id.fecha);
-                fecha.setText(tiempo.get(i).getData());
+                fecha.setText(tiemp.get(i).getData());
                 ImageView ImgTMAX = (ImageView) linearLayout.findViewById(R.id.ImgTMAX);
                 ImgTMAX.setImageResource(R.drawable.icono_temp_sube);
                 TextView TMAX = (TextView) linearLayout.findViewById(R.id.TMAX);
-                TMAX.setText(tiempo.get(i).gettMax()+"º");
+                TMAX.setText(tiemp.get(i).gettMax()+"º");
                 ImageView ImgTMIN = (ImageView) linearLayout.findViewById(R.id.ImgTMIN);
                 ImgTMIN.setImageResource(R.drawable.icono_temp_baja);
                 TextView TMIN = (TextView) linearLayout.findViewById(R.id.TMIN);
-                TMIN.setText(tiempo.get(i).gettMin()+"º");
+                TMIN.setText(tiemp.get(i).gettMin()+"º");
 
                 //MODIFICO LOS ATRIBUTOS DE LA FILA CORRESPONDIENTE A LA MAÑANA
                 ImageView IMGcieloM = (ImageView) linearLayout.findViewById(R.id.IMGcieloM);
-                IMGcieloM.setImageResource(getCielo(tiempo.get(i).getCeoM()));
+                IMGcieloM.setImageResource(getCielo(tiemp.get(i).getCeoM()));
                 ImageView imgRAINM = (ImageView) linearLayout.findViewById(R.id.imgRAINM);
                 imgRAINM.setImageResource(R.drawable.lluvia);
                 TextView RAINM = (TextView) linearLayout.findViewById(R.id.RAINM);
-                RAINM.setText(tiempo.get(i).getpChoivaM()+"%");
+                RAINM.setText(tiemp.get(i).getpChoivaM()+"%");
 
                 //MODIFICO LOS ATRIBUTOS DE LA FILA CORRESPONDIENTE A LA TARDE
                 ImageView IMGcieloT = (ImageView) linearLayout.findViewById(R.id.IMGcieloT);
-                IMGcieloT.setImageResource(getCielo(tiempo.get(i).getCeoT()));
+                IMGcieloT.setImageResource(getCielo(tiemp.get(i).getCeoT()));
                 ImageView imgRAINT = (ImageView) linearLayout.findViewById(R.id.imgRAINT);
                 imgRAINT.setImageResource(R.drawable.lluvia);
                 TextView RAINT = (TextView) linearLayout.findViewById(R.id.RAINT);
-                RAINT.setText(tiempo.get(i).getpChoivaT()+"%");
+                RAINT.setText(tiemp.get(i).getpChoivaT()+"%");
 
                 //MODIFICO LOS ATRIBUTOS DE LA FILA CORRESPONDIENTE A LA NOCHE
                 ImageView IMGcieloN = (ImageView) linearLayout.findViewById(R.id.IMGcieloN);
-                IMGcieloN.setImageResource(getCielo(tiempo.get(i).getCeoN()));
+                IMGcieloN.setImageResource(getCielo(tiemp.get(i).getCeoN()));
                 ImageView imgRAINN = (ImageView) linearLayout.findViewById(R.id.imgRAINN);
                 imgRAINN.setImageResource(R.drawable.lluvia);
                 TextView RAINN = (TextView) linearLayout.findViewById(R.id.RAINN);
-                RAINN.setText(tiempo.get(i).getpChoivaN()+"%");
+                RAINN.setText(tiemp.get(i).getpChoivaN()+"%");
 
 
 
@@ -120,7 +114,6 @@ public class ExtendedActivity extends AppCompatActivity {
 
     private int getCielo(String sky){
         int imgres = 0;
-        String cielo = sky;
         switch(sky){
             case "101":
                 imgres = R.drawable.dia_despejado;

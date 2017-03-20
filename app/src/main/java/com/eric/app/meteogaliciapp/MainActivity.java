@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,16 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,10 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected JSONObject doInBackground(String... args) {
-            JSONParser jParser = new JSONParser();
-
             // Getting JSON from URL
-            return jParser.getJSONFromUrl(pag);
+            return JSONParser.getJSONFromUrl(pag);
         }
         @Override
         protected void onPostExecute(JSONObject json) {
@@ -395,9 +389,8 @@ public class MainActivity extends AppCompatActivity {
             pDialog.dismiss();
             ViewGroup layout1 = (ViewGroup) findViewById(R.id.predict);
             layout1.removeAllViews();
-            ArrayList<Tiempo> tiempo = tiemp;
 
-            for (int i=0;i<tiempo.size();i++){
+            for (int i = 0; i< tiemp.size(); i++){
                 ViewGroup layout = (ViewGroup) findViewById(R.id.predict);
                 LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
                 int id = R.layout.prediction;
@@ -407,9 +400,9 @@ public class MainActivity extends AppCompatActivity {
                 TextView dia = (TextView) linearLayout.findViewById(R.id.dia);
                 TextView tempdia = (TextView) linearLayout.findViewById(R.id.tempdia);
 
-                dia.setText(tiempo.get(i).getData());
-                tempdia.setText(tiempo.get(i).gettMin()+"º / "+tiempo.get(i).gettMax()+"º");
-                imgdia.setImageResource(getCielo(tiempo.get(i).getCeoT()));
+                dia.setText(tiemp.get(i).getData());
+                tempdia.setText(tiemp.get(i).gettMin()+"º / "+ tiemp.get(i).gettMax()+"º");
+                imgdia.setImageResource(getCielo(tiemp.get(i).getCeoT()));
 
                 layout.addView(linearLayout);
             }
@@ -437,7 +430,6 @@ public class MainActivity extends AppCompatActivity {
 
     private int getCielo(String sky){
         int imgres = 0;
-        String cielo = sky;
         switch(sky){
             case "101":
                 imgres = R.drawable.dia_despejado;
