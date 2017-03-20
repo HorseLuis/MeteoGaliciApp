@@ -28,7 +28,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     int aux = 0;
     String pag = "http://servizos.meteogalicia.gal/rss/observacion/observacionConcellos.action";
-    String url2 ="";
+    String url2 = "";
+    String url3 = "";
 
     String estadoCielo;
     double sensTermica;
@@ -67,8 +68,11 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
         url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
+        url3 = "http://servizos.meteogalicia.gal/rss/predicion/rssConcellosMPrazo.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
         new JSONParse().execute();
         new MostrarPrediccion().execute(url2);
+        new MostrarPrediccionLP().execute(url3);
+
     }
 
 
@@ -413,13 +417,60 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    class MostrarPrediccionLP extends AsyncTask<String, Void, ArrayList<Tiempo>> {
+        private ProgressDialog pDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Obteniendo Datos ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected ArrayList<Tiempo> doInBackground(String... strings) {
+            return XMLParserLP.descargarTiempo(strings[0]);
+        }
+
+        //---when all the images have been downloaded---
+        @Override
+        protected void onPostExecute(ArrayList<Tiempo> tiemp) {
+            pDialog.dismiss();
+
+            for (int i = 0; i< tiemp.size(); i++){
+                ViewGroup layout = (ViewGroup) findViewById(R.id.predict);
+                LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+                int id = R.layout.prediction;
+                LinearLayout linearLayout = (LinearLayout) inflater.inflate(id,null,false);
+
+                ImageView imgdia = (ImageView) linearLayout.findViewById(R.id.imgdia);
+                TextView dia = (TextView) linearLayout.findViewById(R.id.dia);
+                TextView tempdia = (TextView) linearLayout.findViewById(R.id.tempdia);
+
+                dia.setText(tiemp.get(i).getData());
+                tempdia.setText(tiemp.get(i).gettMin()+"º / "+ tiemp.get(i).gettMax()+"º");
+                imgdia.setImageResource(getCielo(tiemp.get(i).getCeoT()));
+
+                layout.addView(linearLayout);
+            }
+
+        }
+
+    }
+
+
     public void change_city(View view) {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         concelloBusca = spinner.getSelectedItem().toString();
         idConcelloBusca = Ids.get(Galicia.indexOf(concelloBusca));
         new JSONParse().execute();
         url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
+        url3 = "http://servizos.meteogalicia.gal/rss/predicion/rssConcellosMPrazo.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
         new MostrarPrediccion().execute(url2);
+        new MostrarPrediccionLP().execute(url3);
     }
 
     public void extend_prediction(View view) {

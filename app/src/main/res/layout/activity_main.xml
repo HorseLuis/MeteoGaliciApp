@@ -97,7 +97,11 @@
         android:id="@+id/progressBar2"
         android:progress="0"/>
 
-
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbarStyle="outsideInset">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -109,6 +113,7 @@
         android:id="@+id/predict">
 
     </LinearLayout>
+    </HorizontalScrollView>
 
 
 </LinearLayout>

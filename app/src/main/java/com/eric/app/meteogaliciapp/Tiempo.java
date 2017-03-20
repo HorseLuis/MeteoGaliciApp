@@ -32,6 +32,15 @@ public class Tiempo {
         this.pChoivaN = pChoivaN;
     }
 
+    public Tiempo(String Data, String tMax, String tMin, String ceo, String pChoiva){
+        this.data = Data;
+        this.tMax = tMax;
+        this.tMin = tMin;
+        this.ceoT = ceo;
+        this.pChoivaT = pChoiva;
+
+    }
+
     public String getData() {
         return data;
     }
