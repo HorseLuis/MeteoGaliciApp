@@ -86,7 +86,8 @@ public class ExtendedActivity extends AppCompatActivity {
                 ImageView imgRAINM = (ImageView) linearLayout.findViewById(R.id.imgRAINM);
                 imgRAINM.setImageResource(R.drawable.lluvia);
                 TextView RAINM = (TextView) linearLayout.findViewById(R.id.RAINM);
-                RAINM.setText(tiemp.get(i).getpChoivaM()+"%");
+                if (tiemp.get(i).getpChoivaM().equals("-9999")) RAINM.setText("-");
+                else RAINM.setText(tiemp.get(i).getpChoivaM()+"%");
 
                 //MODIFICO LOS ATRIBUTOS DE LA FILA CORRESPONDIENTE A LA TARDE
                 ImageView IMGcieloT = (ImageView) linearLayout.findViewById(R.id.IMGcieloT);
@@ -94,7 +95,8 @@ public class ExtendedActivity extends AppCompatActivity {
                 ImageView imgRAINT = (ImageView) linearLayout.findViewById(R.id.imgRAINT);
                 imgRAINT.setImageResource(R.drawable.lluvia);
                 TextView RAINT = (TextView) linearLayout.findViewById(R.id.RAINT);
-                RAINT.setText(tiemp.get(i).getpChoivaT()+"%");
+                if (tiemp.get(i).getpChoivaT().equals("-9999")) RAINT.setText("-");
+                else RAINT.setText(tiemp.get(i).getpChoivaT()+"%");
 
                 //MODIFICO LOS ATRIBUTOS DE LA FILA CORRESPONDIENTE A LA NOCHE
                 ImageView IMGcieloN = (ImageView) linearLayout.findViewById(R.id.IMGcieloN);
@@ -102,7 +104,8 @@ public class ExtendedActivity extends AppCompatActivity {
                 ImageView imgRAINN = (ImageView) linearLayout.findViewById(R.id.imgRAINN);
                 imgRAINN.setImageResource(R.drawable.lluvia);
                 TextView RAINN = (TextView) linearLayout.findViewById(R.id.RAINN);
-                RAINN.setText(tiemp.get(i).getpChoivaN()+"%");
+                if (tiemp.get(i).getpChoivaN().equals("-9999")) RAINN.setText("-");
+                else RAINN.setText(tiemp.get(i).getpChoivaN()+"%");
 
 
 

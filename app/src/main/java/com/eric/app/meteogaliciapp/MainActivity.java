@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                             String datasky = "";
                             switch (estadoCielo){
                                 case "101":
-                                    imgres = R.drawable.dia_despejado;
+                                    imgres = R.drawable.victor_despejado;
                                     datasky = "DESPEXADO";
                                     break;
                                 case "102":
@@ -310,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
                                     datasky = "NO DISPONIBLE";
                                     break;
                             }
+
                             view_estado.setImageResource(imgres);
                             dato_cielo.setText(datasky);
 
