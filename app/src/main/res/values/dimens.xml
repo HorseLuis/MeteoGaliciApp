@@ -6,4 +6,5 @@
     <dimen name="temperatura_texto">40sp</dimen>
     <dimen name="text_tempdia">18sp</dimen>
     <dimen name="text_fecha">10sp</dimen>
+    <dimen name="porcentaje_lluvia">16dp</dimen>
 </resources>
