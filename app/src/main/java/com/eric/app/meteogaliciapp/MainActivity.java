@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                             String datasky = "";
                             switch (estadoCielo){
                                 case "101":
-                                    imgres = R.drawable.victor_despejado;
+                                    imgres = R.drawable.dia_despejado;
                                     datasky = "DESPEXADO";
                                     break;
                                 case "102":
@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    class MostrarPrediccion extends AsyncTask<String, Void, ArrayList<Tiempo>> {
+    private class MostrarPrediccion extends AsyncTask<String, Void, ArrayList<Tiempo>> {
         private ProgressDialog pDialog;
         @Override
         protected void onPreExecute() {
@@ -417,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class MostrarPrediccionLP extends AsyncTask<String, Void, ArrayList<Tiempo>> {
+    private class MostrarPrediccionLP extends AsyncTask<String, Void, ArrayList<Tiempo>> {
         private ProgressDialog pDialog;
         @Override
         protected void onPreExecute() {
@@ -624,7 +624,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void MensajeEmergente(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
-                builder.setMessage("Parece que MeteoGalicia se ha ido de vacaciones. No es culpa nuestra, Víctor :(");
+                builder.setMessage("Parece que MeteoGalicia se ha ido de vacaciones. Por favor, inténtelo de nuevo más tarde");
         builder.setTitle("ERROR");
         builder.setCancelable(false);
         builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
