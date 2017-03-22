@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -43,7 +41,7 @@ public class ExtendedActivity extends AppCompatActivity {
     }
 
 
-    class MostrarPrediccion extends AsyncTask<String, Void, ArrayList<Tiempo>> {
+    private class MostrarPrediccion extends AsyncTask<String, Void, ArrayList<Tiempo>> {
         private ProgressDialog pDialog;
 
         @Override
@@ -122,7 +120,7 @@ public class ExtendedActivity extends AppCompatActivity {
     }
 
 
-    class MostrarPrediccionLP extends AsyncTask<String, Void, ArrayList<Tiempo>> {
+    private class MostrarPrediccionLP extends AsyncTask<String, Void, ArrayList<Tiempo>> {
         private ProgressDialog pDialog;
 
         @Override
