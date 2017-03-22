@@ -59,7 +59,8 @@
             android:id="@+id/Dia"
             android:layout_width="50dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"/>
         <ImageView
             android:layout_weight="5"
             android:id="@+id/IMGcielo"
@@ -72,14 +73,15 @@
             android:layout_weight="1"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center_vertical"/>
         <TextView
             android:textColor="@color/text_primary"
             android:layout_weight="1"
             android:id="@+id/RAIN"
             android:layout_width="@dimen/porcentaje_lluvia"
             android:layout_height="match_parent"
-            android:gravity="right"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"/>
     </LinearLayout>
 </LinearLayout>
