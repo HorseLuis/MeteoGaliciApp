@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,10 +35,13 @@ public class ExtendedActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(Concello);
         }
         String url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcello+"&dia=-1&request_locale=gl";
+        String url3 = "http://servizos.meteogalicia.gal/rss/predicion/rssConcellosMPrazo.action?idZona="+idConcello+"&dia=-1&request_locale=gl";
         new MostrarPrediccion().execute(url2);
+        new MostrarPrediccionLP().execute(url3);
 
 
     }
+
 
     class MostrarPrediccion extends AsyncTask<String, Void, ArrayList<Tiempo>> {
         private ProgressDialog pDialog;
@@ -56,6 +61,7 @@ public class ExtendedActivity extends AppCompatActivity {
         protected ArrayList<Tiempo> doInBackground(String... strings) {
             return XMLParser.descargarTiempo(strings[0]);
         }
+
 
         //---when all the images have been downloaded---
         @Override
@@ -114,6 +120,65 @@ public class ExtendedActivity extends AppCompatActivity {
             pDialog.dismiss();
         }
     }
+
+
+    class MostrarPrediccionLP extends AsyncTask<String, Void, ArrayList<Tiempo>> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ExtendedActivity.this);
+            pDialog.setMessage("Obteniendo Datos ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected ArrayList<Tiempo> doInBackground(String... strings) {
+            return XMLParserLP.descargarTiempo(strings[0]);
+        }
+
+
+        //---when all the images have been downloaded---
+        @Override
+        protected void onPostExecute(ArrayList<Tiempo> tiemp) {
+            for (int i = 0; i< tiemp.size(); i++){
+                ViewGroup layout = (ViewGroup) findViewById(R.id.content);
+                LayoutInflater inflater = LayoutInflater.from(ExtendedActivity.this);
+                int id = R.layout.layout_extend_lp;
+
+                //OBTENGO EL LINEAR LAYOUT DEL TIEMPO EXTENDIDO
+                LinearLayout linearLayout = (LinearLayout) inflater.inflate(id,null,false);
+
+                //MODIFICO LOS ATRIBUTOS DE LAS VISTAS DE LA FILA PADRE
+                TextView fecha = (TextView) linearLayout.findViewById(R.id.fecha);
+                fecha.setText(tiemp.get(i).getData());
+                ImageView ImgTMAX = (ImageView) linearLayout.findViewById(R.id.ImgTMAX);
+                ImgTMAX.setImageResource(R.drawable.icono_temp_sube);
+                TextView TMAX = (TextView) linearLayout.findViewById(R.id.TMAX);
+                TMAX.setText(tiemp.get(i).gettMax()+"º");
+                ImageView ImgTMIN = (ImageView) linearLayout.findViewById(R.id.ImgTMIN);
+                ImgTMIN.setImageResource(R.drawable.icono_temp_baja);
+                TextView TMIN = (TextView) linearLayout.findViewById(R.id.TMIN);
+                TMIN.setText(tiemp.get(i).gettMin()+"º");
+
+                //MODIFICO LOS ATRIBUTOS DE LA FILA CORRESPONDIENTE AL DIA
+                ImageView IMGcielo = (ImageView) linearLayout.findViewById(R.id.IMGcielo);
+                IMGcielo.setImageResource(getCielo(tiemp.get(i).getCeoT()));
+                ImageView imgRAIN = (ImageView) linearLayout.findViewById(R.id.imgRAIN);
+                imgRAIN.setImageResource(R.drawable.lluvia);
+                TextView RAIN = (TextView) linearLayout.findViewById(R.id.RAIN);
+                if (tiemp.get(i).getpChoivaT().equals("-9999")) RAIN.setText("-");
+                else RAIN.setText(tiemp.get(i).getpChoivaT()+"%");
+                layout.addView(linearLayout);
+            }
+            pDialog.dismiss();
+        }
+    }
+
 
     private int getCielo(String sky){
         int imgres = 0;
