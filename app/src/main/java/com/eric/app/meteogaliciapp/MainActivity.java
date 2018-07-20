@@ -1,5 +1,6 @@
 package com.eric.app.meteogaliciapp;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    Activity activity = this;
     int aux = 0;
     String pag = "http://servizos.meteogalicia.gal/rss/observacion/observacionConcellos.action";
     String url2 = "";
@@ -326,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else if (sensTermica>temperatura){
                                 imgres1 = R.drawable.icono_temp_sube;
-                                //ICONO DE TERMOMETRO EN DESCENSO CUANDO LA SENSACION TERMICA ES MAYOR QUE LA TEMPERATURA
+                                //ICONO DE TERMOMETRO EN ASCENSO CUANDO LA SENSACION TERMICA ES MAYOR QUE LA TEMPERATURA
                             }
                             else {
                                 imgres1 = R.drawable.icono_temp_estable;
@@ -357,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
                     if (Double.valueOf(estadoCielo)/2.0<100) {
                         layout.setBackgroundResource(R.color.dayPrimary);
                         toolbar.setBackgroundResource(R.color.dayPrimaryDark);
-
+                        activity.getWindow().setStatusBarColor(getColor(R.color.dayPrimaryDark));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
