@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,25 +25,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-    <Spinner
+    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+        android:textColor="@color/text_secondary"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        app:hintText="Seleciona un concello..."
         android:layout_gravity="right"
         android:id="@+id/spinner" />
-    <ImageView
-        android:background="@drawable/ic_action_change"
-        android:layout_width="30dp"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:onClick="change_city"/>
 </LinearLayout>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:textSize="@dimen/ciudad_texto"
         android:textColor="@color/text_primary"
@@ -104,7 +101,7 @@
         android:fillViewport="true"
         android:scrollbarStyle="outsideInset">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
