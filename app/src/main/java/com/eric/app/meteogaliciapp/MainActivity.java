@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
 
@@ -341,14 +344,39 @@ public class MainActivity extends AppCompatActivity {
                     if (aux==0){
                         concellos = new String[Galicia.size()];
                         for (int i=0;i<Galicia.size();i++){
-                            concellos[i]=Galicia.get(i);
+                            if (i==0) {
+                                concellos[i]=" ";
+                            } else {
+                                concellos[i]=Galicia.get(i);
+                            }
                         }
-                        Spinner spinner=(Spinner)findViewById(R.id.spinner);
+                        SearchableSpinner spinner = (SearchableSpinner) findViewById(R.id.spinner);
+                        spinner.setTitle("Seleciona un concello");
+                        spinner.setPositiveButton("OK");
                         ArrayAdapter adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, concellos);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner.setAdapter(adapter);
 
+                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                SearchableSpinner spinner = (SearchableSpinner) findViewById(R.id.spinner);
+                                if (spinner.getSelectedItemPosition()>0) {
+                                    concelloBusca = spinner.getSelectedItem().toString();
+                                    idConcelloBusca = Ids.get(Galicia.indexOf(concelloBusca));
+                                    new JSONParse().execute();
+                                    url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
+                                    url3 = "http://servizos.meteogalicia.gal/rss/predicion/rssConcellosMPrazo.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
+                                    new MostrarPrediccion().execute(url2);
+                                    new MostrarPrediccionLP().execute(url3);
+                                }
+                            }
 
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
 
                     }
 
@@ -464,8 +492,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void change_city(View view) {
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+    /*public void change_city(View view) {
+        SearchableSpinner spinner = (SearchableSpinner) findViewById(R.id.spinner);
         concelloBusca = spinner.getSelectedItem().toString();
         idConcelloBusca = Ids.get(Galicia.indexOf(concelloBusca));
         new JSONParse().execute();
@@ -473,7 +501,7 @@ public class MainActivity extends AppCompatActivity {
         url3 = "http://servizos.meteogalicia.gal/rss/predicion/rssConcellosMPrazo.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
         new MostrarPrediccion().execute(url2);
         new MostrarPrediccionLP().execute(url3);
-    }
+    }*/
 
     public void extend_prediction(View view) {
         Intent intent = new Intent(this, ExtendedActivity.class);
