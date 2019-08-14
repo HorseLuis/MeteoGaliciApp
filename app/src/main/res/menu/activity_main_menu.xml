@@ -3,5 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-    
+    <item android:title="Cambiar Concello"
+        android:id="@+id/change"></item>
+    <item android:title="Actualizar"
+        android:id="@+id/update"></item>
+    <item android:title="Salir"
+        android:id="@+id/exit"></item>
 </menu>
