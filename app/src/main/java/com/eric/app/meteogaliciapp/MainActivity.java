@@ -12,22 +12,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
     Activity activity = this;
@@ -44,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
     public String concelloBusca = "Ourense";
     public String idConcelloBusca = "32054";
     String[]concellos;
+
+    LinearLayout hsv;
+    Toolbar toolbar;
+    SearchableSpinner spinner;
 
     ArrayList<String> Galicia = new ArrayList<>();
     ArrayList<String> Ids = new ArrayList<>();
@@ -63,15 +74,37 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.change:
+                MotionEvent motionEvent = MotionEvent.obtain( 0, 0, MotionEvent.ACTION_UP, 0, 0, 0 );
+                spinner.dispatchTouchEvent(motionEvent);
+                return true;
+            case R.id.update:
+                new JSONParse().execute();
+                new MostrarPrediccion().execute(url2);
+                new MostrarPrediccionLP().execute(url3);
+                return true;
+            case R.id.exit:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
+        hsv = findViewById(R.id.hsv);
+        spinner = findViewById(R.id.spinner);
         url2 = "http://servizos.meteogalicia.gal/rss/predicion/rssLocalidades.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
         url3 = "http://servizos.meteogalicia.gal/rss/predicion/rssConcellosMPrazo.action?idZona="+idConcelloBusca+"&dia=-1&request_locale=gl";
         new JSONParse().execute();
@@ -134,8 +167,9 @@ public class MainActivity extends AppCompatActivity {
 
                             TextView view_temp = (TextView) findViewById(R.id.text_temperatura);
                             view_temp.setText(temperatura+"º");
-                            TextView view_city = (TextView) findViewById(R.id.text_ciudad);
-                            view_city.setText(concello);
+//                            TextView view_city = (TextView) findViewById(R.id.text_ciudad);
+//                            view_city.setText(concello);
+                            toolbar.setTitle(concello);
 
                             ImageView view_estado = (ImageView) findViewById(R.id.estado_cielo);
                             TextView dato_cielo = (TextView) findViewById(R.id.dato_cielo);
@@ -350,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
                                 concellos[i]=Galicia.get(i);
                             }
                         }
-                        SearchableSpinner spinner = (SearchableSpinner) findViewById(R.id.spinner);
+
                         spinner.setTitle("Seleciona un concello");
                         spinner.setPositiveButton("OK");
                         ArrayAdapter adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, concellos);
@@ -400,6 +434,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     private class MostrarPrediccion extends AsyncTask<String, Void, ArrayList<Tiempo>> {
         private ProgressDialog pDialog;
         @Override
@@ -435,7 +470,10 @@ public class MainActivity extends AppCompatActivity {
                 TextView dia = (TextView) linearLayout.findViewById(R.id.dia);
                 TextView tempdia = (TextView) linearLayout.findViewById(R.id.tempdia);
 
-                dia.setText(tiemp.get(i).getData());
+                String[] fecha = tiemp.get(i).getData().split("/");
+                String diaS = diaSemana(Integer.parseInt(fecha[0]), Integer.parseInt(fecha[1]), Integer.parseInt(fecha[2]));
+
+                dia.setText(diaS + ". " + fecha[0] + "/" + fecha[1]);
                 tempdia.setText(tiemp.get(i).gettMin()+"º / "+ tiemp.get(i).gettMax()+"º");
                 imgdia.setImageResource(getCielo(tiemp.get(i).getCeoT()));
 
@@ -445,7 +483,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
     private class MostrarPrediccionLP extends AsyncTask<String, Void, ArrayList<Tiempo>> {
         private ProgressDialog pDialog;
@@ -480,7 +517,10 @@ public class MainActivity extends AppCompatActivity {
                 TextView dia = (TextView) linearLayout.findViewById(R.id.dia);
                 TextView tempdia = (TextView) linearLayout.findViewById(R.id.tempdia);
 
-                dia.setText(tiemp.get(i).getData());
+                String[] fecha = tiemp.get(i).getData().split("/");
+                String diaS = diaSemana(Integer.parseInt(fecha[0]), Integer.parseInt(fecha[1]), Integer.parseInt(fecha[2]));
+
+                dia.setText(diaS + ". " + fecha[0] + "/" + fecha[1]);
                 tempdia.setText(tiemp.get(i).gettMin()+"º / "+ tiemp.get(i).gettMax()+"º");
                 imgdia.setImageResource(getCielo(tiemp.get(i).getCeoT()));
 
@@ -651,7 +691,6 @@ public class MainActivity extends AppCompatActivity {
         return imgres;
     }
 
-
     private void MensajeEmergente(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
                 builder.setMessage("Parece que MeteoGalicia se ha ido de vacaciones. Por favor, inténtelo de nuevo más tarde");
@@ -664,6 +703,36 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    String diaSemana (int dia, int mes, int ano)
+    {
+        String letraD="";
+        /*Calendar c = Calendar.getInstance();
+        c.set(ano, mes, dia, 0, 0, 0);
+        nD=c.get(Calendar.DAY_OF_WEEK);*/
+        TimeZone timezone = TimeZone.getDefault();
+        Calendar calendar = new GregorianCalendar(timezone);
+        calendar.set(ano, mes-1, dia);
+        int nD=calendar.get(Calendar.DAY_OF_WEEK);
+        switch (nD){
+            case 1: letraD = "Dom";
+                break;
+            case 2: letraD = "Lun";
+                break;
+            case 3: letraD = "Mar";
+                break;
+            case 4: letraD = "Mie";
+                break;
+            case 5: letraD = "Jue";
+                break;
+            case 6: letraD = "Vie";
+                break;
+            case 7: letraD = "Sab";
+                break;
+        }
+
+        return letraD;
     }
 
 
