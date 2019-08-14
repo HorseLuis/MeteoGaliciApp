@@ -2,9 +2,9 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">0dp</dimen>
     <dimen name="activity_vertical_margin">0dp</dimen>
-    <dimen name="ciudad_texto">30sp</dimen>
+    <dimen name="ciudad_texto">40sp</dimen>
     <dimen name="temperatura_texto">40sp</dimen>
-    <dimen name="text_tempdia">18sp</dimen>
-    <dimen name="text_fecha">10sp</dimen>
+    <dimen name="text_tempdia">23sp</dimen>
+    <dimen name="text_fecha">15sp</dimen>
     <dimen name="porcentaje_lluvia">16dp</dimen>
 </resources>
